@@ -10,7 +10,7 @@ router.get(
   "/",
   masterMiddleware,
   endpointResponse(async (req, res, next) => {
-    const logsPath = `${homePath}/.pm2/logs/scv-api-out.log`;
+    const logsPath = `${homePath}/.pm2/logs/scv-api-pb-out.log`;
     const lastLogs = await readLastLines.read(logsPath, 50);
     return lastLogs;
   })
