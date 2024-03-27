@@ -1,11 +1,16 @@
-const { Pessoa } = require("../models/init-models");
+const { Pessoa, Usuario } = require("../models/init-models");
 const { BadRequestError, NotFoundError } = require("../utils/errors/Errors");
 const { cpf } = require("cpf-cnpj-validator");
 const { cnpj } = require("cpf-cnpj-validator");
 
-const read = async () => {
+const read = async (idUsuario) => {
+  let usuario = await Usuario.findOne({
+    where: { idUsuario: idUsuario} 
+  })
+
   const pessoas = await Pessoa.findAll({
     attributes: ["idPessoa", "cpfCnpjPessoa", "nomePessoa"],
+    where: usuario.nivelUsuario === 'M' ? undefined : { idLojaPessoa: usuario.idLoja}
   });
   return pessoas;
 };
@@ -30,11 +35,12 @@ const readOneCpfCnpj = async (cpfCnpjPessoa) => {
   return pessoaExistente;
 }
 
-const create = async (pessoa) => {
+const create = async (idLoja, pessoa) => {
   let pessoaExistente = await pvFindPessoaByCpfCnpj(pessoa.cpfCnpjPessoa);
   // Verifica se pessoa pesquisada ja existe
   if (pessoaExistente) throw new BadRequestError("Pessoa ja cadastrada");
 
+  pessoa.idLojaPessoa = idLoja
   //Cria a pessoa com o enviado no body da request
   const novaPessoa = await Pessoa.create(pessoa);
 

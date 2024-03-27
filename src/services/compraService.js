@@ -21,8 +21,20 @@ let options = {
         "valor",
       ],
   }
-const read = async () => {
-  return Compra.findAll(options);
+
+ 
+const read = async (idUsuario, idLoja) => {
+   let usuario = await Usuario.findOne({
+    where: { idUsuario: idUsuario} 
+  })
+
+  return Compra.findAll({
+    ...options,
+    include: usuario.nivelUsuario === 'M' ? undefined : [{
+      model: Pessoa,
+      where: {idLojaPessoa: idLoja}
+     }]
+  });
 };
 
 const readOne = async (idCompra) => {

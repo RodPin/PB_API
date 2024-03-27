@@ -1,6 +1,6 @@
 const express = require("express");
 const endpointResponse = require("../middlewares/endpointResponse");
-const { gerenteMiddleware } = require("../middlewares/nivelMiddlewares");
+const { gerenteMiddleware, vendedorMiddleware } = require("../middlewares/nivelMiddlewares");
 const veiculoService = require("../services/veiculoService");
 
 const router = express.Router();
@@ -8,14 +8,16 @@ const router = express.Router();
 //Todos os Veiculos
 router.get(
   "/",
+  vendedorMiddleware,
   endpointResponse(async (req, res, next) => {
-    return veiculoService.read();
+    return veiculoService.read(req.idUsuario, req.idLoja);
   })
 );
 
 //Detalhes Id Veiculo
 router.get(
   "/detalhe/:idVeiculo",
+  vendedorMiddleware,
   endpointResponse(async (req, res, next) => {
     return veiculoService.readOne(req.params.idVeiculo);
   })
@@ -25,9 +27,10 @@ router.get(
 //Create veiculo
 router.post(
   "/",
+  vendedorMiddleware,
   endpointResponse(async (req, res, next) => {
     const veiculo = { ...req.body };
-    return veiculoService.create(veiculo);
+    return veiculoService.create(req.idLoja, veiculo);
   })
 );
 

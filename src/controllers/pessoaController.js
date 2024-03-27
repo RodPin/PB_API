@@ -3,18 +3,21 @@ const router = express.Router();
 const pessoaService = require("../services/pessoaService");
 const endpointResponse = require("../middlewares/endpointResponse");
 const { Pessoa } = require("../models/init-models");
+const { vendedorMiddleware } = require("../middlewares/nivelMiddlewares");
 
 //Todas as Pessoas
 router.get(
   "/",
+  vendedorMiddleware,
   endpointResponse((req, res, next) => {
-    return pessoaService.read();
+    return pessoaService.read(req.idUsuario);
   })
 );
 
 //Detalhes
 router.get(
   "/detalhe/:idPessoa",
+  vendedorMiddleware,
   endpointResponse((req, res, next) => {
     return pessoaService.readOne(req.params.idPessoa);
   })
@@ -23,6 +26,7 @@ router.get(
 //Detalhes by CPF/CNPJ
 router.get(
   "/detalhe/cpfcnpj/:cpfCnpjPessoa",
+  vendedorMiddleware,
   endpointResponse(async (req, res, next) => {
     return pessoaService.readOneCpfCnpj(req.params.cpfCnpjPessoa);
   })
@@ -31,15 +35,17 @@ router.get(
 // Inclusao de Pessoa
 router.post(
   "/",
+  vendedorMiddleware,
   endpointResponse((req, res, next) => {
     const pessoa = req.body;
-    return pessoaService.create(pessoa);
+    return pessoaService.create(req.idLoja,pessoa);
   })
 );
 
 //Put de Pessoa
 router.put(
   "/:idPessoa",
+  vendedorMiddleware,
   endpointResponse(async (req, res, next) => {
     const pessoaExistente = await Pessoa.findOne({
       where: {

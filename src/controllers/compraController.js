@@ -1,43 +1,46 @@
 const express = require("express");
 const endpointResponse = require("../middlewares/endpointResponse");
-const { gerenteMiddleware } = require("../middlewares/nivelMiddlewares");
+const { gerenteMiddleware, vendedorMiddleware } = require("../middlewares/nivelMiddlewares");
 const compraService = require("../services/compraService");
 
 const router = express.Router();
 
-//Todos os Veiculos
+//Todos os Compras
 router.get(
   "/",
+  vendedorMiddleware,
   endpointResponse(async (req, res, next) => {
-    return compraService.read();
+    return compraService.read(req.idUsuario, req.idLoja);
   })
 );
 
-//Detalhes Id Veiculo
+//Detalhes Id Compra
 router.get(
-  "/detalhe/:idVeiculo",
+  "/detalhe/:idCompra",
+  vendedorMiddleware,
   endpointResponse(async (req, res, next) => {
-    return compraService.readOne(req.params.idVeiculo);
+    return compraService.readOne(req.params.idCompra);
   })
 );
 
 
-//Create veiculo
+//Create Compra
 router.post(
   "/",
+  vendedorMiddleware,
   endpointResponse(async (req, res, next) => {
-    const veiculo = { ...req.body };
-    return compraService.create(veiculo);
+    const compra = { ...req.body };
+    return compraService.create(compra);
   })
 );
 
-// Edicao de Veiculo
+// Edicao de Compra
 router.put(
-  "/:idVeiculo",
+  "/:idCompra",
   gerenteMiddleware,
   endpointResponse((req, res, next) => {
-    const veiculoEditada = { ...req.body, idVeiculo: req.params.idVeiculo };
-    return compraService.edit(req.idUsuario, veiculoEditada);
+    const compraEditada = { ...req.body, idCompra: req.params.idCompra };
+    return compraService.edit(req.idUsuario, compraEditada);
   })
 );
 

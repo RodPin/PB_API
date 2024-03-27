@@ -103,6 +103,7 @@ function pvSignToken(usuario) {
       idUsuario: usuario.idUsuario,
       nivelUsuario: usuario.nivelUsuario,
       emailUsuario: usuario.emailUsuario,
+      idLoja: usuario.idLoja
     },
     jwtSecret,
     {

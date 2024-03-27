@@ -48,6 +48,7 @@ const pvBuildRef = (req, rObj) => {
   req.nivelUsuario = rObj.nivelUsuario;
   req.idUsuario = rObj.idUsuario;
   req.emailUsuario = rObj.emailUsuario;
+  req.idLoja = rObj.idLoja;
   console.log(req.method, `${req.baseUrl}${req.url}`, req.emailUsuario);
 };
 

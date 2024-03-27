@@ -2,7 +2,11 @@ const Sequelize = require("sequelize");
 const { Veiculo, Usuario } = require("../models/init-models");
 const { BadRequestError, NotFoundError } = require("../utils/errors/Errors");
 
-const read = async () => {
+const read = async (idUsuario, idLoja) => {
+  let usuario = await Usuario.findOne({
+    where: { idUsuario: idUsuario} 
+  })
+
   return Veiculo.findAll({
     attributes: [
       "idVeiculo",
@@ -12,6 +16,9 @@ const read = async () => {
       "versaoVeiculo",
       "placaVeiculo",
     ],
+    where: usuario.nivelUsuario === 'M' ? undefined : {
+      idLojaVeiculo: idLoja
+    }
   });
 };
 
@@ -28,9 +35,10 @@ const readOne = async (idVeiculo) => {
   return veiculo;
 };
 
-const create = async (veiculo) => {
+const create = async (idLoja, veiculo) => {
   await pvCheckInfoVeiculo(veiculo);
   veiculo.tipoVeiculo = '1'
+  veiculo.idLojaVeiculo = idLoja
   return Veiculo.create(veiculo);
 };
 
