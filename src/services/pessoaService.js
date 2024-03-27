@@ -9,7 +9,7 @@ const read = async (idUsuario) => {
   })
 
   const pessoas = await Pessoa.findAll({
-    attributes: ["idPessoa", "cpfCnpjPessoa", "nomePessoa"],
+    attributes: ["idPessoa", "cpfCnpjPessoa", "nomePessoa", "emailPessoa","estadoEnderecoPessoa"],
     where: usuario.nivelUsuario === 'M' ? undefined : { idLojaPessoa: usuario.idLoja}
   });
   return pessoas;
