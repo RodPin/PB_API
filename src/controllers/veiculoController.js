@@ -27,7 +27,7 @@ router.get(
 //Create veiculo
 router.post(
   "/",
-  vendedorMiddleware,
+  gerenteMiddleware,
   endpointResponse(async (req, res, next) => {
     const veiculo = { ...req.body };
     return veiculoService.create(req.idLoja, veiculo);

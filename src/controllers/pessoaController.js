@@ -3,7 +3,7 @@ const router = express.Router();
 const pessoaService = require("../services/pessoaService");
 const endpointResponse = require("../middlewares/endpointResponse");
 const { Pessoa } = require("../models/init-models");
-const { vendedorMiddleware } = require("../middlewares/nivelMiddlewares");
+const { vendedorMiddleware , gerenteMiddleware} = require("../middlewares/nivelMiddlewares");
 
 //Todas as Pessoas
 router.get(
@@ -35,7 +35,7 @@ router.get(
 // Inclusao de Pessoa
 router.post(
   "/",
-  vendedorMiddleware,
+  gerenteMiddleware,
   endpointResponse((req, res, next) => {
     const pessoa = req.body;
     return pessoaService.create(req.idLoja,pessoa);
@@ -45,7 +45,7 @@ router.post(
 //Put de Pessoa
 router.put(
   "/:idPessoa",
-  vendedorMiddleware,
+  gerenteMiddleware,
   endpointResponse(async (req, res, next) => {
     const pessoaExistente = await Pessoa.findOne({
       where: {
