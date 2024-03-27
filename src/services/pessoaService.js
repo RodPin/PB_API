@@ -42,6 +42,7 @@ const create = async (idLoja, pessoa) => {
 
   pessoa.idLojaPessoa = idLoja
   //Cria a pessoa com o enviado no body da request
+  console.log("CREATING PESSOA",pessoa.cpfCnpjPessoa, pessoa.nomePessoa)
   const novaPessoa = await Pessoa.create(pessoa);
 
   return novaPessoa;

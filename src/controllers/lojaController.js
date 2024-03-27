@@ -33,25 +33,6 @@ router.get(
   })
 );
 
-//Detalhes da propria loja
-// router.get("/detalhe/propria", vendedorMiddleware, async (req, res) => {
-//   try {
-//     const loja = await Loja.findOne({
-//       where: {
-//         idLoja: req.params.idLoja,
-//       },
-//     });
-
-//     if (!loja) {
-//       throw new NotFoundError("Loja nao encontrada");
-//     }
-
-//     return res.send(loja);
-//   } catch (e) {
-//     return handleFailResponse(res, e);
-//   }
-// });
-
 // Inclusao de Loja
 router.post(
   "/",

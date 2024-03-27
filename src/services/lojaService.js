@@ -44,11 +44,6 @@ const create = async (loja) => {
   if (!validationCNPJ(loja.cnpjLoja))
     throw new BadRequestError("CNPJ Invalido");
 
-  if (loja.dddTelefone1Loja?.length !== 2)
-    throw new BadRequestError("DDD1 deve ter 2 caracteres");
-
-  if (loja.dddTelefone2Loja?.length !== 2)
-    throw new BadRequestError("DDD2 deve ter 2 caracteres");
   if (loja.estadoEnderecoLoja?.length !== 2)
     throw new BadRequestError("Estado deve ter 2 caracteres");
 
@@ -56,6 +51,8 @@ const create = async (loja) => {
     throw new BadRequestError("Nome da loja ate 40 caracteres");
 
   loja.siteLoja = loja.siteLoja || "";
+  loja.dddTelefone1Loja = loja.dddTelefone1Loja || "21";
+  loja.dddTelefone2Loja = loja.dddTelefone2Loja || "21";
 
   const novaLoja = await Loja.create(loja);
 
