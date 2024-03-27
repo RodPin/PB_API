@@ -1,0 +1,578 @@
+{
+	"info": {
+		"_postman_id": "47a9fda0-9174-4e8d-a4b3-ef6af60ea212",
+		"name": "SCV_API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6708468",
+		"_collection_link": "https://red-firefly-115842.postman.co/workspace/SCV-API~fb48f544-0438-4bdf-8455-c574ec9a3a72/collection/6708468-47a9fda0-9174-4e8d-a4b3-ef6af60ea212?action=share&source=collection_link&creator=6708468"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login (Todos)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.globals.set(\"token\", jsonData.token);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"login\":\"w.luan@yahoo.br\",\r\n    \"senha\":\"asdasd\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{backend_url}}/auth/login",
+							"host": [
+								"{{backend_url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Auth from token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.globals.set(\"token\", jsonData.token);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"login\":\"gomescafe@hotmail.com\",\r\n    \"senha\":\"MG083043\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{backend_url}}/auth",
+							"host": [
+								"{{backend_url}}"
+							],
+							"path": [
+								"auth"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Loja",
+			"item": [
+				{
+					"name": "List Lojas",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{backend_url}}/loja",
+							"host": [
+								"{{backend_url}}"
+							],
+							"path": [
+								"loja"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Detail Loja",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{backend_url}}/loja/detalhe/11",
+							"host": [
+								"{{backend_url}}"
+							],
+							"path": [
+								"loja",
+								"detalhe",
+								"11"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Loja",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cnpjLoja\":\"630293923\",\n    \"DTYPE\":\"Loja\",\n    \"emailLoja\":\"krx@gasdf.com\",\n    \"nomeLoja\":\"kRX SISTEMAS\",\n    \"isEstadualLoja\":\"123\",\n    \"isMunicipalLoja\":\"1323\",\n    \"siteLoja\":\"krx@asd.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{backend_url}}/loja",
+							"host": [
+								"{{backend_url}}"
+							],
+							"path": [
+								"loja"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Loja",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cnpjLoja\":\"630293923\",\n    \"DTYPE\":\"Loja\",\n    \"emailLoja\":\"krx@gasdf.com\",\n    \"nomeLoja\":\"Ronsak\",\n    \"isEstadualLoja\":\"123\",\n    \"isMunicipalLoja\":\"1323\",\n    \"siteLoja\":\"krx@asd.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{backend_url}}/loja/6",
+							"host": [
+								"{{backend_url}}"
+							],
+							"path": [
+								"loja",
+								"6"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pesssoa",
+			"item": [
+				{
+					"name": "List Pessoas By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{backend_url}}/pessoa",
+							"host": [
+								"{{backend_url}}"
+							],
+							"path": [
+								"pessoa"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Detail Pessoa By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{backend_url}}/pessoa/detalhe/146",
+							"host": [
+								"{{backend_url}}"
+							],
+							"path": [
+								"pessoa",
+								"detalhe",
+								"146"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Pessoa",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{        \n    \"cpfCnpjPessoa\":\"55527341066\",\n    \"DTYPE\":\"Pessoa\",\n    \"nomePessoa\":\"CRISTOVAO COLOMBO\"    \n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{backend_url}}/pessoa",
+							"host": [
+								"{{backend_url}}"
+							],
+							"path": [
+								"pessoa"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Usuarios",
+			"item": [
+				{
+					"name": "List Usuarios",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{backend_url}}/usuario",
+							"host": [
+								"{{backend_url}}"
+							],
+							"path": [
+								"usuario"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Detail Id Usuario",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{backend_url}}/usuario/detalhe/155",
+							"host": [
+								"{{backend_url}}"
+							],
+							"path": [
+								"usuario",
+								"detalhe",
+								"155"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Detail Login Usuario",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "\"token\"",
+								"value": " \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZFVzdWFyaW8iOjIzLCJuaXZlbFVzdWFyaW8iOiJTIiwiaWF0IjoxNjQ1MDQyODM1LCJleHAiOjE2NDUxMjkyMzV9.EGB12g7sCAFn3fRsvq1MWLAxkQ9aeBAIax7QXr11qTM\"",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{backend_url}}/usuario/detalheLoginUsuario/mcezargomes@ig.com.b",
+							"host": [
+								"{{backend_url}}"
+							],
+							"path": [
+								"usuario",
+								"detalheLoginUsuario",
+								"mcezargomes@ig.com.b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Usuario (Socio)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"emailUsuario\":\"rod@g.com\",\r\n    \"senhaUsuario\":\"1234\",\r\n    \"nivelUsuario\":\"D\",\r\n    \"statusUsuario\":\"A\",\r\n    \"loginUsuario\":\"Rodrigo\",\r\n    \"nomeUsuario\":\"Rodrigo Gomes\",\r\n    \"idLoja\":1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{backend_url}}/usuario",
+							"host": [
+								"{{backend_url}}"
+							],
+							"path": [
+								"usuario"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Envelope",
+			"item": []
+		},
+		{
+			"name": "Veiculo",
+			"item": [
+				{
+					"name": "Create Veiculo",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\n{\n    \"modeloVeiculo\":\"T\",\n    \"marcaVeiculo\":\"T\",\n    \"portasVeiculo\":\"T\",\n    \"corVeiculo\":\"T\",\n    \"placaVeiculo\":\"T\",\n    \"chassiVeiculo\":\"T\",\n    \"renavamVeiculo\":\"T\",\n    \"tipoVeiculo\":\"F\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{backend_url}}/veiculo",
+							"host": [
+								"{{backend_url}}"
+							],
+							"path": [
+								"veiculo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Veiculos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{backend_url}}/veiculo",
+							"host": [
+								"{{backend_url}}"
+							],
+							"path": [
+								"veiculo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Detail Veiculo By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{backend_url}}/veiculo/detalhe/11",
+							"host": [
+								"{{backend_url}}"
+							],
+							"path": [
+								"veiculo",
+								"detalhe",
+								"11"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Detail Veiculo By Renavam",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{backend_url}}/veiculo/detalhe/renavam/00793877881",
+							"host": [
+								"{{backend_url}}"
+							],
+							"path": [
+								"veiculo",
+								"detalhe",
+								"renavam",
+								"00793877881"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Logs",
+			"item": [
+				{
+					"name": "Logs",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{backend_url}}/log",
+							"host": [
+								"{{backend_url}}"
+							],
+							"path": [
+								"log"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	]
+}

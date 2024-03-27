@@ -1,0 +1,4 @@
+PASSO A PASSO 
+
+1 - Usar "functions/sequelizeAuto.js" AUTO PARA GERAR OS MODELOS
+
