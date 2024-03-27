@@ -8,7 +8,9 @@ const sequelize = new Sequelize(name, user, password, {
   port,
 });
 
-sequelize.sync() // { force: true } will drop existing tables and recreate them
+sequelize.sync(
+  // { force: true }
+  ) // { force: true } will drop existing tables and recreate them
   .then(() => {
     console.log('Banco de dados Sincronizado com sucesso');
     auth();

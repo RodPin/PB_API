@@ -71,6 +71,10 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(25),
       allowNull: true
     },
+    dtIniAssinaturaLoja: {
+      type: DataTypes.DATEONLY,
+      allowNull: true
+    },
     cepEnderecoLoja: {
       type: DataTypes.STRING(8),
       allowNull: true

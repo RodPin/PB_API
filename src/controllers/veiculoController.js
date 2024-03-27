@@ -20,13 +20,7 @@ router.get(
     return veiculoService.readOne(req.params.idVeiculo);
   })
 );
-//Detalhes by Renavam
-router.get(
-  "/detalhe/renavam/:renavamVeiculo",
-  endpointResponse(async (req, res, next) => {
-    return veiculoService.readOneRenavam(req.params.renavamVeiculo);
-  })
-);
+
 
 //Create veiculo
 router.post(
