@@ -33,7 +33,10 @@ const read = async (idUsuario, idLoja) => {
     include: usuario.nivelUsuario === 'M' ? undefined : [{
       model: Pessoa,
       where: {idLojaPessoa: idLoja}
-     }]
+     },  {
+      model: Veiculo,
+      attributes: ["idVeiculo", "renavamVeiculo", "modeloVeiculo","corVeiculo"],
+    },]
   });
 };
 
@@ -70,7 +73,15 @@ const edit = async (idUsuario, compraEditada) => {
       idUsuario,
     },
   });
-  if (usuario.idLoja !== compraExistente.idLojaVeiculo) {
+  const veiculoExistente = await Veiculo.findOne({
+    where: {
+      idVeiculo: compraEditada.idVeiculo,
+    },
+  });
+
+  if (!veiculoExistente) throw new NotFoundError("Veiculo nao encontrada");
+
+  if (usuario.idLoja !== veiculoExistente.idLojaVeiculo) {
     throw new BadRequestError("Usuario nao pode editar a compra que nao é da sua loja");
   }
   await pvCheckInfoCompra(compraEditada);

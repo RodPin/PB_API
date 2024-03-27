@@ -85,8 +85,17 @@ const edit = async (idUsuario, lojaEditada) => {
       idUsuario,
     },
   });
+
+  console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",)
+  console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",)
+  console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",)
+  console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",)
+  console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",)
+  console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",)
+  console.log("usuario.idLoja",usuario.idLoja)
+  console.log("lojaExistente.idLoja",lojaExistente.idLoja)
   if (usuario.nivelUsuario !== "M" && usuario.idLoja !== lojaExistente.idLoja) {
-    throw new BadRequestError("Usuario nao pode editar loja que nao e sua");
+    throw new BadRequestError("Usuario nao pode editar loja que nao e suaxxx");
   }
 
   lojaEditada.cnpjLoja = undefined;
