@@ -15,6 +15,10 @@ var Compra = _compra(sequelize, DataTypes);
 
 Usuario.belongsTo(Loja, { foreignKey: "idLoja" });
 Loja.hasMany(Usuario, { foreignKey: "idLoja" });
+Pessoa.hasMany(Compra, { foreignKey: 'idPessoa' }); 
+Compra.belongsTo(Pessoa, { foreignKey: 'idPessoa' }); 
+Veiculo.hasMany(Compra, { foreignKey: 'idVeiculo' }); 
+Compra.belongsTo(Veiculo, { foreignKey: 'idVeiculo' }); 
 
 const initModels = {
   Loja,
@@ -25,5 +29,3 @@ const initModels = {
 };
 
 module.exports = initModels;
-// module.exports.initModels = initModels;
-// module.exports.default = initModels;

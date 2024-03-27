@@ -13,7 +13,11 @@ module.exports = function(sequelize, DataTypes) {
     idVeiculo: {
         type: DataTypes.BIGINT,
         allowNull: false
-      }
+    },
+    valor : {
+        type: DataTypes.FLOAT,
+        allowNull: false
+    }
   }, {
     sequelize,
     tableName: 'Compra',
