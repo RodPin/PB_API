@@ -2,7 +2,7 @@ let apiUrl = "http://localhost:4003/compra";
 let axios = require("axios");
 let api;
 let { generateRandomString } = require("./Loja.test");
-
+let gerarCNPJ = require('./utils/gerarCnpj')
 let idPessoa, idVeiculo;
 describe("Compra Tests", () => {
   step("Login SOCIO - Correto", async () => {
@@ -43,7 +43,8 @@ describe("Compra Tests", () => {
   });
 
   step("Criar Pessoa - Valida", async () => {
-    const { cnpjGerador } = require("cpf_and_cnpj-generator");
+    const  cnpjGerador  = gerarCNPJ();
+
     const { assert } = await import("chai");
     let pessoa = {
       cpfCnpjPessoa: cnpjGerador,
@@ -110,6 +111,15 @@ describe("Compra Tests", () => {
 
         let resposta = await api.post("/", compra);
         assert.equal(resposta.status, 200);
+  });
+  
+  step("Listar Compras ", async () => {
+    const { assert } = await import("chai");
+
+        let resposta = await api.get("/");
+
+        assert.equal(resposta.status, 200);
+        assert.isAbove(resposta.data.length,0);
   });
 });
 
