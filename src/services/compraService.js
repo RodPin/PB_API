@@ -28,7 +28,7 @@ const read = async (idUsuario, idLoja) => {
     where: { idUsuario: idUsuario },
   });
 
-  return Compra.findAll(...getOptions(usuario.nivelUsuario, idLoja));
+  return Compra.findAll(getOptions(usuario.nivelUsuario, idLoja));
 };
 
 const readOne = async (idCompra) => {
