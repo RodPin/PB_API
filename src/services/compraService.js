@@ -28,16 +28,7 @@ const read = async (idUsuario, idLoja) => {
     where: { idUsuario: idUsuario} 
   })
 
-  return Compra.findAll({
-    ...options,
-    include: usuario.nivelUsuario === 'M' ? undefined : [{
-      model: Pessoa,
-      where: {idLojaPessoa: idLoja}
-     },  {
-      model: Veiculo,
-      attributes: ["idVeiculo", "renavamVeiculo", "modeloVeiculo","corVeiculo"],
-    },]
-  });
+  return Compra.findAll(options );
 };
 
 const readOne = async (idCompra) => {
