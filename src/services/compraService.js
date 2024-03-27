@@ -2,8 +2,7 @@ const Sequelize = require("sequelize");
 const { Compra, Usuario, Veiculo, Pessoa } = require("../models/init-models");
 const { BadRequestError, NotFoundError } = require("../utils/errors/Errors");
 
-const read = async () => {
-  return Compra.findAll({
+let options = {
     include: [
         {
           model: Pessoa,
@@ -21,11 +20,14 @@ const read = async () => {
         "idVeiculo",
         "valor",
       ],
-  });
+  }
+const read = async () => {
+  return Compra.findAll(options);
 };
 
 const readOne = async (idCompra) => {
   const compra = await Compra.findOne({
+    ...options,
     where: {
       idCompra: idCompra,
     },

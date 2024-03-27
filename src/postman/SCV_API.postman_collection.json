@@ -520,6 +520,73 @@
 			]
 		},
 		{
+			"name": "Compra",
+			"item": [
+				{
+					"name": "Create Compra",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\n{\n    \"idPessoa\": 1,\n    \"idVeiculo\":1,\n    \"valor\":23000\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{backend_url}}/compra",
+							"host": [
+								"{{backend_url}}"
+							],
+							"path": [
+								"compra"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Compras",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{backend_url}}/compra",
+							"host": [
+								"{{backend_url}}"
+							],
+							"path": [
+								"compra"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Detail Compra By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{backend_url}}/compra/detalhe/1",
+							"host": [
+								"{{backend_url}}"
+							],
+							"path": [
+								"compra",
+								"detalhe",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Logs",
 			"item": [
 				{
