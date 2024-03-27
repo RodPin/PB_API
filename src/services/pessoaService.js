@@ -1,4 +1,4 @@
-const { Pessoa, Usuario } = require("../models/init-models");
+const { Pessoa, Usuario, Loja } = require("../models/init-models");
 const { BadRequestError, NotFoundError } = require("../utils/errors/Errors");
 const { cpf } = require("cpf-cnpj-validator");
 const { cnpj } = require("cpf-cnpj-validator");
@@ -10,7 +10,13 @@ const read = async (idUsuario) => {
 
   const pessoas = await Pessoa.findAll({
     attributes: ["idPessoa", "cpfCnpjPessoa", "nomePessoa", "emailPessoa","estadoEnderecoPessoa"],
-    where: usuario.nivelUsuario === 'M' ? undefined : { idLojaPessoa: usuario.idLoja}
+    where: usuario.nivelUsuario === 'M' ? undefined : { idLojaPessoa: usuario.idLoja},
+    include: [
+      {
+        model: Loja,
+        attributes: ["idLoja", "nomeLoja"],
+      },
+    ],
   });
   return pessoas;
 };

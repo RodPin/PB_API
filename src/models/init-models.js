@@ -14,6 +14,7 @@ var Veiculo = _veiculo(sequelize, DataTypes);
 var Compra = _compra(sequelize, DataTypes);
 
 Usuario.belongsTo(Loja, { foreignKey: "idLoja" });
+Pessoa.belongsTo(Loja, { foreignKey: "idLojaPessoa" });
 Loja.hasMany(Usuario, { foreignKey: "idLoja" });
 Pessoa.hasMany(Compra, { foreignKey: 'idPessoa' }); 
 Compra.belongsTo(Pessoa, { foreignKey: 'idPessoa' }); 

@@ -22,13 +22,7 @@ const readOne = async (idLoja) => {
 };
 
 const create = async (loja) => {
-  if (
-    !loja ||
-    !loja.isEstadualLoja ||
-    !loja.isMunicipalLoja ||
-    !loja.nomeLoja ||
-    !loja.cnpjLoja
-  ) {
+  if (!loja || !loja.isEstadualLoja || !loja.isMunicipalLoja || !loja.nomeLoja || !loja.cnpjLoja) {
     throw new BadRequestError("Dados invalidos");
   }
 
@@ -41,14 +35,11 @@ const create = async (loja) => {
   if (lojaExistente) throw new NotFoundError("Loja ja cadastrado");
 
   // Verifica se CNPJ eh valido
-  if (!validationCNPJ(loja.cnpjLoja))
-    throw new BadRequestError("CNPJ Invalido");
+  if (!validationCNPJ(loja.cnpjLoja)) throw new BadRequestError("CNPJ Invalido");
 
-  if (loja.estadoEnderecoLoja?.length !== 2)
-    throw new BadRequestError("Estado deve ter 2 caracteres");
+  if (loja.estadoEnderecoLoja?.length !== 2) throw new BadRequestError("Estado deve ter 2 caracteres");
 
-  if (loja.nomeLoja.length > 40)
-    throw new BadRequestError("Nome da loja ate 40 caracteres");
+  if (loja.nomeLoja.length > 40) throw new BadRequestError("Nome da loja ate 40 caracteres");
 
   loja.siteLoja = loja.siteLoja || "";
   loja.dddTelefone1Loja = loja.dddTelefone1Loja || "21";
@@ -69,16 +60,9 @@ const edit = async (idUsuario, lojaEditada) => {
 
   if (!lojaExistente) throw new NotFoundError("Loja nao encontrada");
 
-  if (
-    !lojaEditada ||
-    !lojaEditada.isEstadualLoja ||
-    !lojaEditada.isMunicipalLoja ||
-    !lojaEditada.nomeLoja
-  )
-    throw new BadRequestError("Dados invalidos");
+  if (!lojaEditada || !lojaEditada.isEstadualLoja || !lojaEditada.isMunicipalLoja || !lojaEditada.nomeLoja) throw new BadRequestError("Dados invalidos");
 
-  if (lojaEditada?.nomeLoja?.length > 40)
-    throw new BadRequestError("Nome da loja ate 40 caracteres");
+  if (lojaEditada?.nomeLoja?.length > 40) throw new BadRequestError("Nome da loja ate 40 caracteres");
 
   const usuario = await Usuario.findOne({
     where: {
@@ -86,14 +70,6 @@ const edit = async (idUsuario, lojaEditada) => {
     },
   });
 
-  console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",)
-  console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",)
-  console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",)
-  console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",)
-  console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",)
-  console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",)
-  console.log("usuario.idLoja",usuario.idLoja)
-  console.log("lojaExistente.idLoja",lojaExistente.idLoja)
   if (usuario.nivelUsuario !== "M" && usuario.idLoja !== lojaExistente.idLoja) {
     throw new BadRequestError("Usuario nao pode editar loja que nao e suaxxx");
   }
