@@ -1,10 +1,6 @@
 const express = require("express");
 const {
   masterMiddleware,
-  socioMiddleware,
-  gerenteMiddleware,
-  documentalistaMiddleware,
-  vendedorMiddleware,
 } = require("../middlewares/nivelMiddlewares");
 const usuarioService = require("../services/usuarioService");
 const endpointResponse = require("../middlewares/endpointResponse");
