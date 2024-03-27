@@ -2,38 +2,49 @@ const Sequelize = require("sequelize");
 const { Compra, Usuario, Veiculo, Pessoa } = require("../models/init-models");
 const { BadRequestError, NotFoundError } = require("../utils/errors/Errors");
 
-let options = {
-    include: [
-        {
-          model: Pessoa,
-          attributes: ["idPessoa", "nomePessoa", "emailPessoa", "cpfCnpjPessoa"],
-        },
-        {
-            model: Veiculo,
-            attributes: ["idVeiculo", "renavamVeiculo", "modeloVeiculo","corVeiculo"],
-          },
-      ],
-      order: Sequelize.literal("idCompra"),
-      attributes: [
-        "idCompra",
-        "idPessoa",
-        "idVeiculo",
-        "valor",
-      ],
-  }
+let getOptions = (nivelUsuario, idLoja) => ({
+  include: [
+    {
+      model: Pessoa,
+      attributes: ["idPessoa", "nomePessoa", "emailPessoa", "cpfCnpjPessoa"],
+      where:
+        nivelUsuario !== "M"
+          ? {
+              idLojaPessoa: idLoja,
+            }
+          : undefined,
+    },
+    {
+      model: Veiculo,
+      attributes: ["idVeiculo", "renavamVeiculo", "modeloVeiculo", "corVeiculo"],
+    },
+  ],
+  order: Sequelize.literal("idCompra"),
+  attributes: ["idCompra", "idPessoa", "idVeiculo", "valor"],
+});
 
- 
 const read = async (idUsuario, idLoja) => {
-   let usuario = await Usuario.findOne({
-    where: { idUsuario: idUsuario} 
-  })
+  let usuario = await Usuario.findOne({
+    where: { idUsuario: idUsuario },
+  });
 
-  return Compra.findAll(options );
+  return Compra.findAll(...getOptions(usuario.nivelUsuario, idLoja));
 };
 
 const readOne = async (idCompra) => {
   const compra = await Compra.findOne({
-    ...options,
+    include: [
+      {
+        model: Pessoa,
+        attributes: ["idPessoa", "nomePessoa", "emailPessoa", "cpfCnpjPessoa"],
+      },
+      {
+        model: Veiculo,
+        attributes: ["idVeiculo", "renavamVeiculo", "modeloVeiculo", "corVeiculo"],
+      },
+    ],
+    order: Sequelize.literal("idCompra"),
+    attributes: ["idCompra", "idPessoa", "idVeiculo", "valor"],
     where: {
       idCompra: idCompra,
     },
@@ -57,7 +68,6 @@ const edit = async (idUsuario, compraEditada) => {
     },
   });
 
-  
   if (!compraExistente) throw new NotFoundError("Compra nao encontrada");
   const usuario = await Usuario.findOne({
     where: {
@@ -90,35 +100,31 @@ const compraService = {
 module.exports = compraService;
 
 async function pvCheckInfoCompra(compra) {
-  if (!compra.idVeiculo)
-    throw new BadRequestError("idVeiculo nao fornecido");
-  if (!compra.idPessoa)
-    throw new BadRequestError("idPessoa nao fornecido");
-  if (!compra.valor)
-    throw new BadRequestError("Valor da nao fornecido");
-  if(!pvIsFloat(compra.valor))
-        throw new BadRequestError("Valor da compra invalido, deve ser um numero");
-   
-    const pessoa = await Pessoa.findOne({
-        where: {
-          idPessoa: compra.idPessoa,
-        },
-      });
-    
-    if (!pessoa) throw new NotFoundError("Pessoa nao encontrado");
+  if (!compra.idVeiculo) throw new BadRequestError("idVeiculo nao fornecido");
+  if (!compra.idPessoa) throw new BadRequestError("idPessoa nao fornecido");
+  if (!compra.valor) throw new BadRequestError("Valor da nao fornecido");
+  if (!pvIsFloat(compra.valor)) throw new BadRequestError("Valor da compra invalido, deve ser um numero");
 
-    const veiculo = await Veiculo.findOne({
-        where: {
-          idVeiculo: compra.idVeiculo,
-        },
-      });
-    
-    if (!veiculo) throw new NotFoundError("Veiculo nao encontrado");
+  const pessoa = await Pessoa.findOne({
+    where: {
+      idPessoa: compra.idPessoa,
+    },
+  });
+
+  if (!pessoa) throw new NotFoundError("Pessoa nao encontrado");
+
+  const veiculo = await Veiculo.findOne({
+    where: {
+      idVeiculo: compra.idVeiculo,
+    },
+  });
+
+  if (!veiculo) throw new NotFoundError("Veiculo nao encontrado");
 }
 
 function pvIsFloat(value) {
-    if (typeof value === 'number' && !Number.isNaN(value)) {
-      return true;
-    }
-    return false;
+  if (typeof value === "number" && !Number.isNaN(value)) {
+    return true;
   }
+  return false;
+}
