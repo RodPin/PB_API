@@ -55,6 +55,10 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(7),
       allowNull: true
     },
+    valorVeiculo: {
+      type: DataTypes.FLOAT,
+      allowNull: true
+    },
     idUsuarioVeiculo: {
       type: DataTypes.BIGINT,
       allowNull: true

@@ -1,5 +1,5 @@
 const Sequelize = require("sequelize");
-const { Veiculo, Usuario } = require("../models/init-models");
+const { Veiculo, Usuario, Compra } = require("../models/init-models");
 const { BadRequestError, NotFoundError } = require("../utils/errors/Errors");
 
 const read = async (idUsuario, idLoja) => {
@@ -7,7 +7,7 @@ const read = async (idUsuario, idLoja) => {
     where: { idUsuario: idUsuario} 
   })
 
-  return Veiculo.findAll({
+  let veiculos = await Veiculo.findAll({
     attributes: [
       "idVeiculo",
       "renavamVeiculo",
@@ -15,11 +15,28 @@ const read = async (idUsuario, idLoja) => {
       "modeloVeiculo",
       "versaoVeiculo",
       "placaVeiculo",
+      "valorVeiculo"
     ],
     where: usuario.nivelUsuario === 'M' ? undefined : {
       idLojaVeiculo: idLoja
-    }
+    },
+    raw: true
   });
+
+  for (let veiculo of veiculos){
+    veiculo.vendido = 0;
+    let compra = await Compra.findOne({
+      where: { idVeiculo: veiculo.idVeiculo}
+    })
+
+    if(compra){
+      veiculo.vendido = 1;
+      veiculo.valorVenda = compra.valor;
+      veiculo.lucro = compra.valor - veiculo.valorVeiculo;
+    }
+  }
+
+  return veiculos;
 };
 
 const readOne = async (idVeiculo) => {

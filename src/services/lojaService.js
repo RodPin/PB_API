@@ -1,11 +1,39 @@
-const { Loja, Usuario } = require("../models/init-models");
+const { Loja, Usuario, Veiculo, Compra } = require("../models/init-models");
 const { BadRequestError, NotFoundError } = require("../utils/errors/Errors");
 const validationCNPJ = require("../validation/validationCNPJ");
 
 const read = async () => {
   const lojas = await Loja.findAll({
     attributes: ["idLoja", "cnpjLoja", "nomeLoja"],
+    raw: true
   });
+
+  for(let loja of lojas){
+    let usuarios = await Usuario.findAll({
+      where: { idLoja: loja.idLoja}
+    });
+    
+    let veiculos = await Veiculo.findAll({
+      where: { idLojaVeiculo: loja.idLoja}
+    })
+
+    let saldo = 0;
+    let qtdCompras = 0;
+    for (let veiculo of veiculos){
+      let compra = await Compra.findOne({ where: {idVeiculo: veiculo.idVeiculo}});
+      saldo = saldo - veiculo.valorVeiculo;
+      if(compra){
+        qtdCompras = qtdCompras + 1
+        saldo = saldo + compra.valor;
+      }
+    };
+
+    
+    loja.qtdUsuarios = usuarios.length;
+    loja.qtdVeiculos = veiculos.length;
+    loja.qtdCompras = qtdCompras;
+    loja.saldo = saldo;
+  } 
   return lojas;
 };
 
